@@ -1,0 +1,29 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.0'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.springboot.configdemo'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.3'
+
+	testImplementation 'junit:junit:4.13.2'
+	testImplementation group: 'io.rest-assured', name: 'rest-assured', version: '5.0.0'
+	testImplementation group: 'io.rest-assured', name: 'json-path', version: '5.0.0'
+	testImplementation group: 'io.rest-assured', name: 'xml-path', version: '5.0.0'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
