@@ -29,7 +29,7 @@ class BookControllerTestUsingRestTemplate {
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/books"),
+                createURLWithPort("/book"),
                 HttpMethod.GET, entity, String.class);
 
         String expected = "[{\"bookCategory\":\"Science\",\"bookTitle\":\"Cosmos\",\"bookAuthor\":\"Rushikesh\"},{\"bookCategory\":\"Science\",\"bookTitle\":\"The Origin of Species\",\"bookAuthor\":\"Rushikesh\"},{\"bookCategory\":\"Engineering\",\"bookTitle\":\"The Design of Everyday Things\",\"bookAuthor\":\"Gaurav\"},{\"bookCategory\":\"Engineering\",\"bookTitle\":\"Engineer to Win\",\"bookAuthor\":\"Ganesh\"},{\"bookCategory\":\"Maths\",\"bookTitle\":\"Vedic Mathematics\",\"bookAuthor\":\"Gaurav\"},{\"bookCategory\":\"Maths\",\"bookTitle\":\"Trigonometry\",\"bookAuthor\":\"Rushikesh\"},{\"bookCategory\":\"Technology\",\"bookTitle\":\"AI Superpowers\",\"bookAuthor\":\"Gaurav\"}]";
@@ -43,7 +43,7 @@ class BookControllerTestUsingRestTemplate {
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/books/category/Science"),
+                createURLWithPort("/book/category/Science"),
                 HttpMethod.GET, entity, String.class);
 
         String expected = "[{\"bookCategory\":\"Science\",\"bookTitle\":\"Cosmos\",\"bookAuthor\":\"Rushikesh\"},{\"bookCategory\":\"Science\",\"bookTitle\":\"The Origin of Species\",\"bookAuthor\":\"Rushikesh\"}]";
@@ -56,7 +56,7 @@ class BookControllerTestUsingRestTemplate {
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/books/author/Gaurav"),
+                createURLWithPort("/book/author/Gaurav"),
                 HttpMethod.GET, entity, String.class);
 
         String expected = "[{\"bookCategory\":\"Engineering\",\"bookTitle\":\"The Design of Everyday Things\",\"bookAuthor\":\"Gaurav\"},{\"bookCategory\":\"Maths\",\"bookTitle\":\"Vedic Mathematics\",\"bookAuthor\":\"Gaurav\"},{\"bookCategory\":\"Technology\",\"bookTitle\":\"AI Superpowers\",\"bookAuthor\":\"Gaurav\"}]";
@@ -69,7 +69,7 @@ class BookControllerTestUsingRestTemplate {
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/books/json"),
+                createURLWithPort("/book/json"),
                 HttpMethod.GET, entity, String.class);
 
         String expected = "[{\"bookCategory\":\"Science\",\"bookTitle\":\"Cosmos\",\"bookAuthor\":\"Rushikesh\"},{\"bookCategory\":\"Science\",\"bookTitle\":\"The Origin of Species\",\"bookAuthor\":\"Rushikesh\"},{\"bookCategory\":\"Engineering\",\"bookTitle\":\"The Design of Everyday Things\",\"bookAuthor\":\"Gaurav\"},{\"bookCategory\":\"Engineering\",\"bookTitle\":\"Engineer to Win\",\"bookAuthor\":\"Ganesh\"},{\"bookCategory\":\"Maths\",\"bookTitle\":\"Vedic Mathematics\",\"bookAuthor\":\"Gaurav\"},{\"bookCategory\":\"Maths\",\"bookTitle\":\"Trigonometry\",\"bookAuthor\":\"Rushikesh\"},{\"bookCategory\":\"Technology\",\"bookTitle\":\"AI Superpowers\",\"bookAuthor\":\"Gaurav\"}]";

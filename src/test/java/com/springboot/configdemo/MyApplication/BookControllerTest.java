@@ -22,7 +22,7 @@ public class BookControllerTest {
 
     @Test
     void readAllBooksTest(){
-        Response response = RestAssured.get(createURLWithPort("/books"));
+        Response response = RestAssured.get(createURLWithPort("/book"));
         System.out.println(response.getBody().asString());
         String expected = "[{\"bookCategory\":\"Science\",\"bookTitle\":\"Cosmos\",\"bookAuthor\":\"Rushikesh\"},{\"bookCategory\":\"Science\",\"bookTitle\":\"The Origin of Species\",\"bookAuthor\":\"Rushikesh\"},{\"bookCategory\":\"Engineering\",\"bookTitle\":\"The Design of Everyday Things\",\"bookAuthor\":\"Gaurav\"},{\"bookCategory\":\"Engineering\",\"bookTitle\":\"Engineer to Win\",\"bookAuthor\":\"Ganesh\"},{\"bookCategory\":\"Maths\",\"bookTitle\":\"Vedic Mathematics\",\"bookAuthor\":\"Gaurav\"},{\"bookCategory\":\"Maths\",\"bookTitle\":\"Trigonometry\",\"bookAuthor\":\"Rushikesh\"},{\"bookCategory\":\"Technology\",\"bookTitle\":\"AI Superpowers\",\"bookAuthor\":\"Gaurav\"}]";
         assertEquals(expected, response.getBody().asString(), "readAllBooks returns All the Books in JSON format when /books uri is fired");
@@ -30,7 +30,7 @@ public class BookControllerTest {
 
     @Test
     void readBookTest(){
-        Response response = RestAssured.get(createURLWithPort("/books/category/Science"));
+        Response response = RestAssured.get(createURLWithPort("/book/category/Science"));
         System.out.println("JSON response : "+response.getBody().asString());
 
         String expected = "[{\"bookCategory\":\"Science\",\"bookTitle\":\"Cosmos\",\"bookAuthor\":\"Rushikesh\"},{\"bookCategory\":\"Science\",\"bookTitle\":\"The Origin of Species\",\"bookAuthor\":\"Rushikesh\"}]";
@@ -40,7 +40,7 @@ public class BookControllerTest {
 
     @Test
     void readBookByAuthorTest(){
-        Response response = RestAssured.get(createURLWithPort("/books/author/Gaurav"));
+        Response response = RestAssured.get(createURLWithPort("/book/author/Gaurav"));
         System.out.println("JSON response : "+response.getBody().asString());
 
         String expected = "[{\"bookCategory\":\"Engineering\",\"bookTitle\":\"The Design of Everyday Things\",\"bookAuthor\":\"Gaurav\"},{\"bookCategory\":\"Maths\",\"bookTitle\":\"Vedic Mathematics\",\"bookAuthor\":\"Gaurav\"},{\"bookCategory\":\"Technology\",\"bookTitle\":\"AI Superpowers\",\"bookAuthor\":\"Gaurav\"}]";
@@ -50,7 +50,7 @@ public class BookControllerTest {
 
     @Test
     void readBookInJSONTest(){
-        Response response = RestAssured.get(createURLWithPort("/books/json"));
+        Response response = RestAssured.get(createURLWithPort("/book/json"));
         System.out.println("JSON response : "+response.getBody().asString());
 
         String expected = "[{\"bookCategory\":\"Science\",\"bookTitle\":\"Cosmos\",\"bookAuthor\":\"Rushikesh\"},{\"bookCategory\":\"Science\",\"bookTitle\":\"The Origin of Species\",\"bookAuthor\":\"Rushikesh\"},{\"bookCategory\":\"Engineering\",\"bookTitle\":\"The Design of Everyday Things\",\"bookAuthor\":\"Gaurav\"},{\"bookCategory\":\"Engineering\",\"bookTitle\":\"Engineer to Win\",\"bookAuthor\":\"Ganesh\"},{\"bookCategory\":\"Maths\",\"bookTitle\":\"Vedic Mathematics\",\"bookAuthor\":\"Gaurav\"},{\"bookCategory\":\"Maths\",\"bookTitle\":\"Trigonometry\",\"bookAuthor\":\"Rushikesh\"},{\"bookCategory\":\"Technology\",\"bookTitle\":\"AI Superpowers\",\"bookAuthor\":\"Gaurav\"}]";
@@ -60,7 +60,7 @@ public class BookControllerTest {
 
     @Test
     void readBookInXmlTest(){
-        Response response = RestAssured.get(createURLWithPort("/books/xml"));
+        Response response = RestAssured.get(createURLWithPort("/book/xml"));
         System.out.println("XML response : "+response.getBody().asString());
 //        String expected = "<List><item><bookCategory>Science</bookCategory><bookTitle>Cosmos</bookTitle><bookAuthor>Rushikesh</bookAuthor></item><item><bookCategory>Science</bookCategory><bookTitle>The Origin of Species</bookTitle><bookAuthor>Rushikesh</bookAuthor></item><item><bookCategory>Engineering</bookCategory><bookTitle>The Design of Everyday Things</bookTitle><bookAuthor>Gaurav</bookAuthor></item><item><bookCategory>Engineering</bookCategory><bookTitle>Engineer to Win</bookTitle><bookAuthor>Ganesh</bookAuthor></item><item><bookCategory>Maths</bookCategory><bookTitle>Vedic Mathematics</bookTitle><bookAuthor>Gaurav</bookAuthor></item><item><bookCategory>Maths</bookCategory><bookTitle>Trigonometry</bookTitle><bookAuthor>Rushikesh</bookAuthor></item><item><bookCategory>Technology</bookCategory><bookTitle>AI Superpowers</bookTitle><bookAuthor>Gaurav</bookAuthor></item></List>";
         String expected = "<List>" +
@@ -108,7 +108,7 @@ public class BookControllerTest {
     void readAllBooksTest_2() {
         RestAssured
                 .given()
-                .get(createURLWithPort("/books"))
+                .get(createURLWithPort("/book"))
                 .then()
                 .statusCode(200)
                 .body("bookCategory[0]", equalTo("Science"))
@@ -123,7 +123,7 @@ public class BookControllerTest {
     void readBookInJsonTest_2() {
         RestAssured
                 .given()
-                .get(createURLWithPort("/books/json"))
+                .get(createURLWithPort("/book/json"))
                 .then()
                 .statusCode(200)
                 .body("bookCategory", hasItems("Science","Maths", "Technology", "Engineering"))
@@ -136,7 +136,7 @@ public class BookControllerTest {
     void readBookByAuthorTest_2() {
         RestAssured
                 .given()
-                .get(createURLWithPort("/books/author/Gaurav"))
+                .get(createURLWithPort("/book/author/Gaurav"))
                 .then()
                 .statusCode(200)
                 .body("bookAuthor", hasItem("Gaurav"))
@@ -149,7 +149,7 @@ public class BookControllerTest {
     void readBookTest_2() {
         RestAssured
                 .given()
-                .get(createURLWithPort("/books/category/Science"))
+                .get(createURLWithPort("/book/category/Science"))
                 .then()
                 .statusCode(200)
                 .body("bookCategory", hasItem("Science"))
@@ -164,7 +164,7 @@ public class BookControllerTest {
                 .given()
                 .accept(ContentType.XML)
                 .when()
-                .get(createURLWithPort("/books/xml"))
+                .get(createURLWithPort("/book/xml"))
                 .then()
                 .assertThat()
                 .statusCode(200)
