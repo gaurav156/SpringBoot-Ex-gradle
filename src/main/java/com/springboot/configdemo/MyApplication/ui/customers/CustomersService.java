@@ -1,5 +1,8 @@
 package com.springboot.configdemo.MyApplication.ui.customers;
 
+import com.springboot.configdemo.MyApplication.BookController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +14,11 @@ public class CustomersService {
     @Autowired
     private CustomersRepository customersRepository;
 
+    Logger logger = LoggerFactory.getLogger(BookController.class);
+
     public List<Customers> getList()
     {
+        logger.debug("Customers Service - getList method call");
         return customersRepository.getList();
     }
 }
