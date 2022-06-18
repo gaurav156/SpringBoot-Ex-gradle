@@ -1,9 +1,12 @@
 package com.springboot.configdemo.MyApplication;
 
+import com.springboot.configdemo.MyApplication.ui.TestMarkL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.io.IOException;
 
 @SpringBootApplication
 public class MyApplication implements CommandLineRunner {
@@ -16,6 +19,9 @@ public class MyApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MyApplication.class, args);
+
+		TestMarkL testMarkL = new TestMarkL();
+		testMarkL.getTest();
 	}
 
 	public void run(String... args) throws Exception {

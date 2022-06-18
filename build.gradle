@@ -16,11 +16,16 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.3'
+	implementation group: 'com.marklogic', name: 'marklogic-client-api', version: '5.3.0'
 
 	testImplementation 'junit:junit:4.13.2'
 	testImplementation group: 'io.rest-assured', name: 'rest-assured', version: '5.0.0'
 	testImplementation group: 'io.rest-assured', name: 'json-path', version: '5.0.0'
 	testImplementation group: 'io.rest-assured', name: 'xml-path', version: '5.0.0'
+}
+
+repositories {
+	jcenter()
 }
 
 tasks.named('test') {
