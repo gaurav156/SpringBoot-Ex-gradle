@@ -1,5 +1,6 @@
 package com.springboot.configdemo.MyApplication;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +15,9 @@ public class Config {
 
     private String name;
     private String environment;
-    private boolean enabled;
-    private List<String> servers = new ArrayList<>();
+    @Value("${server.port}")
+    private int port;
+    private String host;
 
     // standard getters and setters
 
@@ -35,19 +37,19 @@ public class Config {
         this.environment = environment;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public String getHost() {
+        return host;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setPort(int port) {
+        this.port = port;
     }
 
-    public List<String> getServers() {
-        return servers;
+    public void setHost(String host) {
+        this.host = host;
     }
 
-    public void setServers(List<String> servers) {
-        this.servers = servers;
+    public int getPort() {
+        return port;
     }
 }
