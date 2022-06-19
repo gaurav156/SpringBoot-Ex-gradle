@@ -15,7 +15,6 @@ public class bookControllerM {
     @Autowired
     private BookServiceM bookServiceM;
 
-    @CrossOrigin(origins = "http://localhost:8081")
     @RequestMapping(method = RequestMethod.GET, value = "/marklogic/books", produces = {MediaType.APPLICATION_JSON_VALUE})
     public JsonNode readAllBooks(){
         return bookServiceM.getBook();

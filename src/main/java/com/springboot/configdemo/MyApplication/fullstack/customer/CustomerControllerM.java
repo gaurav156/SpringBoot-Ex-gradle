@@ -13,7 +13,6 @@ public class CustomerControllerM {
     @Autowired
     private CustomerServiceM customerServiceM;
 
-    @CrossOrigin(origins = "http://localhost:8081")
     @RequestMapping(method = RequestMethod.GET, value = "/marklogic/customers", produces = {MediaType.APPLICATION_JSON_VALUE})
     public JsonNode getAllCustomers(){
         return customerServiceM.getCustomers();
