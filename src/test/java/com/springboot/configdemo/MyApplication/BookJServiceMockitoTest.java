@@ -1,10 +1,8 @@
 package com.springboot.configdemo.MyApplication;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
@@ -16,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class BookServiceMockitoTest {
+public class BookJServiceMockitoTest {
 
     @InjectMocks
     private BookManager bookManager;
@@ -26,30 +24,30 @@ public class BookServiceMockitoTest {
 
     @Test
     void getListMock(){
-        List<Book> mockList = new ArrayList<>();
-        mockList.add(new Book("Spring", "Unit Testing in Spring Boot", "Gaurav"));
-        mockList.add(new Book("Vue Js", "Vue Js Framework", "Ganesh"));
+        List<BookJ> mockList = new ArrayList<>();
+        mockList.add(new BookJ("Spring", "Unit Testing in Spring Boot", "Gaurav"));
+        mockList.add(new BookJ("Vue Js", "Vue Js Framework", "Ganesh"));
 
         when(bookRepository.getList()).thenReturn(mockList);
 
-        List<Book> returnedList = bookManager.getList();
+        List<BookJ> returnedList = bookManager.getList();
 
         assertEquals(2, returnedList.size());
         verify(bookRepository, times(1)).getList();
-        assertEquals(mockList, returnedList, "getList method returns the Book List");
+        assertEquals(mockList, returnedList, "getList method returns the BookJ List");
 
     }
 
     @Test
     void categoryFilterMock(){
-        List<Book> mockList = new ArrayList<>();
-        mockList.add(new Book("Science", "Unit Testing in Spring Boot", "Gaurav"));
+        List<BookJ> mockList = new ArrayList<>();
+        mockList.add(new BookJ("Science", "Unit Testing in Spring Boot", "Gaurav"));
 
         String category = "Science";
 
         when(bookRepository.categoryFilter(category)).thenReturn(mockList);
 
-        List<Book> returnedList = bookManager.categoryFilter(category);
+        List<BookJ> returnedList = bookManager.categoryFilter(category);
 
         assertEquals(1, returnedList.size());
         verify(bookRepository, times(1)).categoryFilter(category);
@@ -59,13 +57,13 @@ public class BookServiceMockitoTest {
 
     @Test
     void authorFilterMock(){
-        List<Book> mockList = new ArrayList<>();
-        mockList.add(new Book("History", "Unit Testing in Spring Boot", "Gaurav"));
+        List<BookJ> mockList = new ArrayList<>();
+        mockList.add(new BookJ("History", "Unit Testing in Spring Boot", "Gaurav"));
 
         String author = "Gaurav";
         when(bookRepository.authorFilter(author)).thenReturn(mockList);
 
-        List<Book> returnedList = bookManager.authorFilter(author);
+        List<BookJ> returnedList = bookManager.authorFilter(author);
 
         assertEquals(1, returnedList.size());
         verify(bookRepository, times(1)).authorFilter(author);

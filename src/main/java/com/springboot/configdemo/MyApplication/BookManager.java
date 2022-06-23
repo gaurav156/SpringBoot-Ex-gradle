@@ -12,7 +12,7 @@ public class BookManager {
     @Autowired
     BookRepository bookRepository;
 
-    public void printBooks(List<Book> list){
+    public void printBooks(List<BookJ> list){
         list.forEach(x -> System.out.println("\t"+x));
     }
     public void printCount(Map<String, Long> countList){
@@ -20,7 +20,7 @@ public class BookManager {
     }
 
     //		Create a static method that returns all the books as a list collection
-    public List<Book> getList()
+    public List<BookJ> getList()
     {
         return bookRepository.getList();
     }
@@ -28,14 +28,14 @@ public class BookManager {
 
     //		Find all the books based on category filter value  e.g Science, Maths, Engineering, technology
 
-    public List<Book> categoryFilter(String category){
+    public List<BookJ> categoryFilter(String category){
         return bookRepository.categoryFilter(category);
     }
 
 
     //		Find all the books based on Author filter value e.g Rushikesh, Ganesh, Gaurav
 
-    public List<Book> authorFilter(String author){
+    public List<BookJ> authorFilter(String author){
         return bookRepository.authorFilter(author);
     }
 

@@ -2,12 +2,12 @@ package com.springboot.configdemo.MyApplication;
 
 import java.util.Objects;
 
-public class Book {
+public class BookJ {
     private String bookCategory;
     private String bookTitle;
     private String bookAuthor;
 
-    public Book(String bookCategory, String bookTitle, String bookAuthor) {
+    public BookJ(String bookCategory, String bookTitle, String bookAuthor) {
         this.bookCategory = bookCategory;
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
@@ -49,7 +49,7 @@ public class Book {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
+        BookJ book = (BookJ) o;
         return Objects.equals(bookCategory, book.bookCategory) && Objects.equals(bookTitle, book.bookTitle) && Objects.equals(bookAuthor, book.bookAuthor);
     }
 

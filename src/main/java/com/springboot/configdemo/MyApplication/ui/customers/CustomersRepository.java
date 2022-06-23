@@ -1,6 +1,6 @@
 package com.springboot.configdemo.MyApplication.ui.customers;
 
-import com.springboot.configdemo.MyApplication.BookController;
+import com.springboot.configdemo.MyApplication.BookControllerJ;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -14,7 +14,7 @@ public class CustomersRepository {
 
     private final List<Customers> customersList = new ArrayList<>();
 
-    Logger logger = LoggerFactory.getLogger(BookController.class);
+    Logger logger = LoggerFactory.getLogger(BookControllerJ.class);
 
     public CustomersRepository()
     {

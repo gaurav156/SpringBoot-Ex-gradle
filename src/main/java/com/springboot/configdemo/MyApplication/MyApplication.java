@@ -1,6 +1,5 @@
 package com.springboot.configdemo.MyApplication;
 
-import com.springboot.configdemo.MyApplication.ui.TestMarkL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -8,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.io.IOException;
 
 @SpringBootApplication
 public class MyApplication implements CommandLineRunner {
@@ -19,6 +16,9 @@ public class MyApplication implements CommandLineRunner {
 	@Autowired
 	private BookMenu menu;
 
+//	@Autowired
+//	private BooksRepo booksRepo;
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(MyApplication.class, args);
@@ -26,8 +26,7 @@ public class MyApplication implements CommandLineRunner {
 //		TestMarkL testMarkL = new TestMarkL();
 //		testMarkL.getTest();
 
-//		CustomerRepo customerRepo = new CustomerRepo();
-//		customerRepo.getList();
+
 	}
 
 	public void run(String... args) throws Exception {
@@ -36,8 +35,15 @@ public class MyApplication implements CommandLineRunner {
 		System.out.println("host: " + myConfig.getHost());
 		System.out.println("port: " + myConfig.getPort());
 
-//		Book Menu : to Acess Book Manager Services
+//		BooksRepo booksRepo = new BooksRepo();
+//		System.out.println(booksRepo.getList());
+
+//		BookJ Menu : to Acess BookJ Manager Services
 //		menu.bookMenu();
+
+//		ObjectMapper mapper = new ObjectMapper();
+//		List<Book> bookList = mapper.readValue(booksRepo.getList(), new TypeReference<List<Book>>(){});
+//		System.out.println(bookList);
 	}
 
 	@Bean

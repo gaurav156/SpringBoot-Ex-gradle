@@ -12,7 +12,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-class BookManagerTest {
+class BookJManagerTest {
 
     @Autowired
     BookManager bookManager;
@@ -20,28 +20,28 @@ class BookManagerTest {
     @Test
     void getList() {
 
-        List<Book> actualList = bookManager.getList();
+        List<BookJ> actualList = bookManager.getList();
 
-        List<Book> expectedList = new ArrayList<>();
-        expectedList.add( new Book("Science", "Cosmos", "Rushikesh"));
-        expectedList.add( new Book("Science", "The Origin of Species", "Rushikesh"));
-        expectedList.add( new Book("Engineering", "The Design of Everyday Things", "Gaurav"));
-        expectedList.add( new Book("Engineering", "Engineer to Win", "Ganesh"));
-        expectedList.add( new Book("Maths", "Vedic Mathematics", "Gaurav"));
-        expectedList.add( new Book("Maths", "Trigonometry", "Rushikesh"));
-        expectedList.add( new Book("Technology", "AI Superpowers", "Gaurav"));
+        List<BookJ> expectedList = new ArrayList<>();
+        expectedList.add( new BookJ("Science", "Cosmos", "Rushikesh"));
+        expectedList.add( new BookJ("Science", "The Origin of Species", "Rushikesh"));
+        expectedList.add( new BookJ("Engineering", "The Design of Everyday Things", "Gaurav"));
+        expectedList.add( new BookJ("Engineering", "Engineer to Win", "Ganesh"));
+        expectedList.add( new BookJ("Maths", "Vedic Mathematics", "Gaurav"));
+        expectedList.add( new BookJ("Maths", "Trigonometry", "Rushikesh"));
+        expectedList.add( new BookJ("Technology", "AI Superpowers", "Gaurav"));
 
-        assertEquals(expectedList, actualList, "getList method returns the Book List");
+        assertEquals(expectedList, actualList, "getList method returns the BookJ List");
     }
 
     @Test
     void categoryFilter() {
 
-        List<Book> actualList = bookManager.categoryFilter("Science");
+        List<BookJ> actualList = bookManager.categoryFilter("Science");
 
-        List<Book> expectedList = new ArrayList<>();
-        expectedList.add( new Book("Science", "Cosmos", "Rushikesh"));
-        expectedList.add( new Book("Science", "The Origin of Species", "Rushikesh"));
+        List<BookJ> expectedList = new ArrayList<>();
+        expectedList.add( new BookJ("Science", "Cosmos", "Rushikesh"));
+        expectedList.add( new BookJ("Science", "The Origin of Species", "Rushikesh"));
 
         assertEquals(expectedList, actualList, "categoryFilter method returns the Books in a specific Category");
     }
@@ -49,12 +49,12 @@ class BookManagerTest {
     @Test
     void authorFilter() {
 
-        List<Book> actualList = bookManager.authorFilter("Gaurav");
+        List<BookJ> actualList = bookManager.authorFilter("Gaurav");
 
-        List<Book> expectedList = new ArrayList<>();
-        expectedList.add( new Book("Engineering", "The Design of Everyday Things", "Gaurav"));
-        expectedList.add( new Book("Maths", "Vedic Mathematics", "Gaurav"));
-        expectedList.add( new Book("Technology", "AI Superpowers", "Gaurav"));
+        List<BookJ> expectedList = new ArrayList<>();
+        expectedList.add( new BookJ("Engineering", "The Design of Everyday Things", "Gaurav"));
+        expectedList.add( new BookJ("Maths", "Vedic Mathematics", "Gaurav"));
+        expectedList.add( new BookJ("Technology", "AI Superpowers", "Gaurav"));
 
         assertEquals(expectedList, actualList, "authorFilter method returns the Books of a specific Author");
     }

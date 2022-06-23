@@ -1,14 +1,23 @@
 package com.springboot.configdemo.MyApplication;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.document.JSONDocumentManager;
 import com.marklogic.client.document.XMLDocumentManager;
+import com.marklogic.client.io.JacksonHandle;
+import com.springboot.configdemo.MyApplication.fullstack.book.Book;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
+import java.io.IOException;
+import java.util.List;
 
 @Configuration
 //@EnableAutoConfiguration
@@ -71,6 +80,28 @@ public class MarkLogicConfig {
             return String.format("http://%s:%d", host, mlEmeraldPort);
         }
     }
+
+    public JacksonHandle getHandle(String db, String docId){
+        JSONDocumentManager docMgr = getJSONDocumentManager(db);
+
+        JacksonHandle handle = new JacksonHandle();
+        docMgr.read(docId, handle);
+
+        return handle;
+    }
+
+    public JsonParser getJsonParser(String db, String docId) throws IOException {
+        JsonFactory factory = new JsonFactory();
+        JsonParser jp = factory.createParser(String.valueOf(getHandle(db, docId)));
+
+        return jp;
+    }
+
+//    public List<Book> getList(String db, String docId) throws IOException {
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//        return mapper.readValue(getJsonParser(db , docId), new TypeReference<List<Book>>(){});
+//    }
 
     public String getHost() {
         return host;

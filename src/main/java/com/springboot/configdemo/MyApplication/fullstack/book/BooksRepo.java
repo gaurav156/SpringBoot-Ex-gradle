@@ -1,50 +1,50 @@
 package com.springboot.configdemo.MyApplication.fullstack.book;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.marklogic.client.document.JSONDocumentManager;
-import com.marklogic.client.io.JacksonHandle;
-import com.springboot.configdemo.MyApplication.BookController;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.configdemo.MyApplication.MarkLogicConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Repository
 public class BooksRepo {
 
     @Autowired
     public MarkLogicConfig markLogicConfig;
-
-    private String db = "books";
-
+    private List<Book> bookList = new ArrayList<>();
+    private final String db = "books";
     Logger logger = LoggerFactory.getLogger(getClass());
 
-//    public BooksRepo(){
-////        MarkLogicConfig markLogicConfig = new MarkLogicConfig();
-//
-//        DatabaseClient client = DatabaseClientFactory.newClient(markLogicConfig.getHost(), markLogicConfig.getRestPort(), new DatabaseClientFactory.DigestAuthContext(markLogicConfig.getMlUsername(), markLogicConfig.getMlPassword()));
-////        DatabaseClient client = DatabaseClientFactory.newClient(this.host, this.port, new DatabaseClientFactory.DigestAuthContext(this.username,this.password));
-//
-//        JSONDocumentManager docMgr = client.newJSONDocumentManager();
-//        JacksonHandle handle = new JacksonHandle();
-//
-//        docMgr.read("/db/book.json", handle);
-//        this.bookList = handle.get();
-//    }
+    @PostConstruct
+    public void dbConnect() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        String docId = "/db/book.json";
+        this.bookList = mapper.readValue(markLogicConfig.getJsonParser(db , docId), new TypeReference<>() {
+        });
+        logger.debug(String.format("Books Repository successfully connected to Database port : %s", getMarkLogicBaseURL()));
+    }
 
-    public JsonNode getList(){
-        JSONDocumentManager docMgr = markLogicConfig.getJSONDocumentManager(db);
-        JacksonHandle handle = new JacksonHandle();
-        docMgr.read("/db/book.json", handle);
+    public List<Book> getBookList(){
+        logger.debug("Books Repository - getBookList method call");
+        return Collections.unmodifiableList(bookList);
+    }
 
-        logger.debug(String.format("Book Repository - getList method call from %s", getMarkLogicBaseURL()));
-
-        return handle.get();
+    public List<Book> bookFilter(String bookID){
+        logger.debug(String.format("Books Repository - bookFilter method call for bookID : %s", bookID));
+        return bookList.stream().filter(p -> p.getBookID().equals(bookID)).collect(Collectors.toList());
     }
 
     public String getMarkLogicBaseURL(){
-        logger.debug("Book Repository - getMarkLogicBaseURL method call");
+        logger.debug("BookJ Repository - getMarkLogicBaseURL method call");
         return markLogicConfig.getMarkLogicBaseURL(db);
     }
 

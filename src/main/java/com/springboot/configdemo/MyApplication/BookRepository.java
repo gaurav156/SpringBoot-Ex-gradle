@@ -8,36 +8,36 @@ import java.util.stream.Collectors;
 
 @Repository
 public class BookRepository {
-    private final List<Book> bookList = new ArrayList<>();
+    private final List<BookJ> bookList = new ArrayList<>();
 
     public BookRepository()
     {
-        bookList.add( new Book("Science", "Cosmos", "Rushikesh"));
-        bookList.add( new Book("Science", "The Origin of Species", "Rushikesh"));
-        bookList.add( new Book("Engineering", "The Design of Everyday Things", "Gaurav"));
-        bookList.add( new Book("Engineering", "Engineer to Win", "Ganesh"));
-        bookList.add( new Book("Maths", "Vedic Mathematics", "Gaurav"));
-        bookList.add( new Book("Maths", "Trigonometry", "Rushikesh"));
-        bookList.add( new Book("Technology", "AI Superpowers", "Gaurav"));
+        bookList.add( new BookJ("Science", "Cosmos", "Rushikesh"));
+        bookList.add( new BookJ("Science", "The Origin of Species", "Rushikesh"));
+        bookList.add( new BookJ("Engineering", "The Design of Everyday Things", "Gaurav"));
+        bookList.add( new BookJ("Engineering", "Engineer to Win", "Ganesh"));
+        bookList.add( new BookJ("Maths", "Vedic Mathematics", "Gaurav"));
+        bookList.add( new BookJ("Maths", "Trigonometry", "Rushikesh"));
+        bookList.add( new BookJ("Technology", "AI Superpowers", "Gaurav"));
     }
 
 
     //		returns all the books as a list collection
-    public List<Book> getList()
+    public List<BookJ> getList()
     {
         return Collections.unmodifiableList(bookList);
     }
 
     //		Find all the books based on category filter value  e.g Science, Maths, Engineering, technology
 
-    public List<Book> categoryFilter(String category){
+    public List<BookJ> categoryFilter(String category){
         return getList().stream().filter(p -> p.getBookCategory().equals(category)).collect(Collectors.toList());
     }
 
 
     //		Find all the books based on Author filter value e.g Rushikesh, Ganesh, Gaurav
 
-    public List<Book> authorFilter(String author){
+    public List<BookJ> authorFilter(String author){
         return getList().stream().filter(p -> p.getBookAuthor().equals(author)).collect(Collectors.toList());
     }
 

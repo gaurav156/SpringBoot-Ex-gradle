@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class BookControllerTest {
+public class BookJControllerTest {
 
 //    @LocalServerPort
     @Value("${local.server.port}")

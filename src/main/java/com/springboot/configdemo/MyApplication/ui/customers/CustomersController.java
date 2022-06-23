@@ -1,6 +1,7 @@
 package com.springboot.configdemo.MyApplication.ui.customers;
 
-import com.springboot.configdemo.MyApplication.BookController;
+import com.springboot.configdemo.MyApplication.BookControllerJ;
+import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,9 @@ public class CustomersController {
     @Autowired
     private CustomersService customersService;
 
-    Logger logger = LoggerFactory.getLogger(BookController.class);
+    Logger logger = LoggerFactory.getLogger(BookControllerJ.class);
 
+    @Operation(hidden = true)
     @CrossOrigin(origins = "http://localhost:8081")
     @RequestMapping(method = RequestMethod.GET, value = "/customers", produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Customers> readAllBooks() {
