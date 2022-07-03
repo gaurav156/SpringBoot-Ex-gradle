@@ -7,12 +7,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -31,7 +31,7 @@ public class bookController {
             content = @Content)
     })
     @RequestMapping(method = RequestMethod.GET, value = "/books", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Book> readAllBooks() {
+    public List<Book> readAllBooks() throws IOException {
         LoggerFactory.getLogger(getClass()).info("GET request for list of all Books");
         return bookService.getBookList();
     }
@@ -45,9 +45,37 @@ public class bookController {
                     content = @Content)
     })
     @RequestMapping(method = RequestMethod.GET, value = "/books/{bookID}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Book> bookFilter(@PathVariable("bookID") String bookID){
+    public List<Book> bookFilter(@PathVariable("bookID") String bookID) throws IOException {
         LoggerFactory.getLogger(getClass()).info(String.format("GET request for bookID : %s", bookID));
         return bookService.bookFilter(bookID);
+    }
+
+    @Operation(summary = "Add Book", description = "Add a Books", tags = "Post")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Book Added",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = BookService.class))}),
+            @ApiResponse(responseCode = "404", description = "Failed",
+                    content = @Content)
+    })
+    @RequestMapping(method = RequestMethod.POST, value = "/books", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Book addBook(@RequestBody Book book) {
+        LoggerFactory.getLogger(getClass()).info("PUT request to Add Book");
+        return bookService.addBook(book);
+    }
+
+    @Operation(summary = "Delete Book", description = "Delete a Book", tags = "Delete")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Book Deleted",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = BookService.class))}),
+            @ApiResponse(responseCode = "404", description = "Not Found",
+                    content = @Content)
+    })
+    @RequestMapping(method = RequestMethod.DELETE, value = "/books/{bookID}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<HttpStatus> deleteBook(@PathVariable("bookID") String bookID){
+        LoggerFactory.getLogger(getClass()).info("DELETE request to delete a Book");
+        return bookService.deleteBook(bookID);
     }
 }
 

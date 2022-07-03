@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
+import com.marklogic.client.document.DocumentManager;
 import com.marklogic.client.document.JSONDocumentManager;
 import com.marklogic.client.document.XMLDocumentManager;
 import com.marklogic.client.io.JacksonHandle;
@@ -66,6 +67,10 @@ public class MarkLogicConfig {
 //    @Bean
     public JSONDocumentManager getJSONDocumentManager(String db) {
         return getDatabaseClient(db).newJSONDocumentManager();
+    }
+
+    public DocumentManager getDocumentManager(String db){
+        return getDatabaseClient(db).newDocumentManager();
     }
 
 //    @Bean

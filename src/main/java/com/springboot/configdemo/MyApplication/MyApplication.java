@@ -1,5 +1,7 @@
 package com.springboot.configdemo.MyApplication;
 
+import com.springboot.configdemo.MyApplication.fullstack.emerald.EmeraldRepo;
+import com.springboot.configdemo.MyApplication.ui.TestMarkL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -7,6 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.io.IOException;
 
 @SpringBootApplication
 public class MyApplication implements CommandLineRunner {
@@ -17,14 +21,14 @@ public class MyApplication implements CommandLineRunner {
 	private BookMenu menu;
 
 //	@Autowired
-//	private BooksRepo booksRepo;
+//	private EmeraldRepo emeraldRepo;
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		SpringApplication.run(MyApplication.class, args);
 
 //		TestMarkL testMarkL = new TestMarkL();
-//		testMarkL.getTest();
+//		testMarkL.getTest2();
 
 
 	}
@@ -44,7 +48,11 @@ public class MyApplication implements CommandLineRunner {
 //		ObjectMapper mapper = new ObjectMapper();
 //		List<Book> bookList = mapper.readValue(booksRepo.getList(), new TypeReference<List<Book>>(){});
 //		System.out.println(bookList);
+//		System.out.println(emeraldRepo.getBookList());
+//		emeraldRepo.getTest();
+//		emeraldRepo.putTest();
 	}
+
 
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {

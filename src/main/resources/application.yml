@@ -15,9 +15,9 @@ ml:
     books: 8060
     customers: 8090
 
-springdoc:
-  swagger-ui:
-    enabled: true
+#springdoc:
+#  swagger-ui:
+#    enabled: true
 
 #  use-management-port: true
 ##  use-management-port: true
