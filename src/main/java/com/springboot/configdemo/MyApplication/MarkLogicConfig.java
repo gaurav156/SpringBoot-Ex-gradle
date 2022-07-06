@@ -37,6 +37,9 @@ public class MarkLogicConfig {
     @Value("${ml.port.customers}")
     private int mlCustomersPort;
 
+    @Value("${ml.port.user}")
+    private int mlUserPort;
+
     @Value("${ml.username}")
     private String mlUsername;
 
@@ -49,7 +52,9 @@ public class MarkLogicConfig {
             return DatabaseClientFactory.newClient(host, mlBooksPort, new DatabaseClientFactory.DigestAuthContext(mlUsername, mlPassword));
         } else if (db.equals("customers")) {
             return DatabaseClientFactory.newClient(host, mlCustomersPort, new DatabaseClientFactory.DigestAuthContext(mlUsername, mlPassword));
-        } else {
+        } else if(db.equals("user")) {
+            return DatabaseClientFactory.newClient(host, mlUserPort, new DatabaseClientFactory.DigestAuthContext(mlUsername, mlPassword));
+        }else {
             return DatabaseClientFactory.newClient(host, mlEmeraldPort, new DatabaseClientFactory.DigestAuthContext(mlUsername, mlPassword));
         }
     }
