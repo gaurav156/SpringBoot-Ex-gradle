@@ -7,6 +7,7 @@ import com.marklogic.client.document.JSONDocumentManager;
 import com.marklogic.client.io.JacksonHandle;
 import com.springboot.configdemo.MyApplication.MarkLogicConfig;
 
+import com.springboot.configdemo.MyApplication.fullstack.book.BooksRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,14 @@ public class CustomersRepo {
 
     @Autowired
     public MarkLogicConfig markLogicConfig;
+
+    @Autowired
+    private BooksRepo booksRepo;
+
+//    @Autowired
+//    public CustomersRepo(@Lazy BooksRepo booksRepo) {
+//        this.booksRepo = booksRepo;
+//    }
 //    private List<Customer> customerList = new ArrayList<>();
     private final String db = "customers";
     Logger logger = LoggerFactory.getLogger(getClass());
@@ -68,12 +77,22 @@ public class CustomersRepo {
         return Collections.unmodifiableList(customerList);
     }
 
-    public List<Customer> customerFilter(String customerID) throws IOException {
+    public Customer customerFilter(String customerID) throws IOException {
         logger.debug(String.format("Customers Repository - customerFilter method call for customerID : %s", customerID));
-        return getCustomerList().stream().filter(p -> p.getCustomerID().equals(customerID)).collect(Collectors.toList());
+        Customer customer = new Customer();
+        for(Customer i : getCustomerList()){
+            if(i.getCustomerID().equals(customerID)){
+                customer = i;
+            }
+        }
+//        return getCustomerList().stream().filter(p -> p.getCustomerID().equals(customerID)).collect(Collectors.toList());
+        return customer;
     }
 
-    public Customer addCustomer(Customer customer){
+    public Customer addCustomer(Customer customer) throws IOException {
+
+        booksRepo.updateCustomerID(customer.getBookID(), customer.getCustomerID());
+
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode node = objectMapper.valueToTree(customer);
 
@@ -86,8 +105,75 @@ public class CustomersRepo {
         return customer;
     }
 
-    public ResponseEntity<HttpStatus> deleteCustomer(String customerID){
+    public Customer putCustomer(Customer customer) throws IOException {
+        Customer customer2 = customerFilter(customer.getCustomerID());
+        LinkedHashSet<String> bookID1 = customer.getBookID();
+        LinkedHashSet<String> bookID2 = customer2.getBookID();
+
+        LinkedHashSet<String> bookToBeUpdated = bookID1.stream().filter(p -> !bookID2.contains(p)).collect(Collectors.toCollection(LinkedHashSet::new));
+        LinkedHashSet<String> bookToBeDeleted = bookID2.stream().filter(p -> !bookID1.contains(p)).collect(Collectors.toCollection(LinkedHashSet::new));
+
+        booksRepo.updateCustomerID(bookToBeUpdated, customer.getCustomerID());
+        booksRepo.removeCustomerID(bookToBeDeleted, customer.getCustomerID());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode node = objectMapper.valueToTree(customer);
+
+        var manager = markLogicConfig.getDocumentManager(db);
+
+        JacksonHandle handle = new JacksonHandle(node);
+        manager.write("/db/customer/"+customer.getCustomerID()+".json", handle);
+
+        logger.debug(String.format("Customers Repository - putCustomer method call for customerID : %s", customer.getCustomerID()));
+        return customer;
+    }
+
+    public void updateBookID(LinkedHashSet<String> customerID, String bookID) throws IOException {
+        LinkedHashSet<String> book = null;
+        for (String i : customerID) {
+            book = customerFilter(i).getBookID();
+            book.add(bookID);
+        }
+        for(String i : customerID){
+            Customer customer = customerFilter(i);
+            customer.setBookID(book);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode node = objectMapper.valueToTree(customer);
+
+            var manager = markLogicConfig.getDocumentManager(db);
+
+            JacksonHandle handle = new JacksonHandle(node);
+            manager.write("/db/customer/"+customer.getCustomerID()+".json", handle);
+
+            logger.debug(String.format("Customers Repository - updateBookID method call for bookID : %s", bookID));
+        }
+    }
+
+    public void removeBookID(LinkedHashSet<String> customerID, String bookID) throws IOException {
+        for (String i : customerID) {
+            Customer customer = customerFilter(i);
+            customer.deleteBookID(bookID);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode node = objectMapper.valueToTree(customer);
+
+            var manager = markLogicConfig.getDocumentManager(db);
+
+            JacksonHandle handle = new JacksonHandle(node);
+            manager.write("/db/customer/"+customer.getCustomerID()+".json", handle);
+
+            logger.debug(String.format("Customers Repository - removeBookID method call for bookID : %s", bookID));
+        }
+    }
+
+    public ResponseEntity<HttpStatus> deleteCustomer(String customerID) throws IOException {
         logger.debug(String.format("Customers Repository - deleteCustomer method call for customerID : %s", customerID));
+
+        Customer customer = customerFilter(customerID);
+        LinkedHashSet<String> bookID = customer.getBookID();
+        booksRepo.removeCustomerID(bookID, customerID);
+
         try {
             var manager = markLogicConfig.getDocumentManager(db);
             manager.delete("/db/customer/" + customerID + ".json");

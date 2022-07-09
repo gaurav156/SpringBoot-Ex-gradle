@@ -45,7 +45,7 @@ public class bookController {
                     content = @Content)
     })
     @RequestMapping(method = RequestMethod.GET, value = "/books/{bookID}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Book> bookFilter(@PathVariable("bookID") String bookID) throws IOException {
+    public Book bookFilter(@PathVariable("bookID") String bookID) throws IOException {
         LoggerFactory.getLogger(getClass()).info(String.format("GET request for bookID : %s", bookID));
         return bookService.bookFilter(bookID);
     }
@@ -59,9 +59,23 @@ public class bookController {
                     content = @Content)
     })
     @RequestMapping(method = RequestMethod.POST, value = "/books", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Book addBook(@RequestBody Book book) {
-        LoggerFactory.getLogger(getClass()).info("PUT request to Add Book");
+    public Book addBook(@RequestBody Book book) throws IOException {
+        LoggerFactory.getLogger(getClass()).info("POST request to Add Book");
         return bookService.addBook(book);
+    }
+
+    @Operation(summary = "Update Book", description = "Update a Books", tags = "Put")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Book Updated",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = BookService.class))}),
+            @ApiResponse(responseCode = "404", description = "Failed",
+                    content = @Content)
+    })
+    @RequestMapping(method = RequestMethod.PUT, value = "/books", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Book putBook(@RequestBody Book book) throws IOException {
+        LoggerFactory.getLogger(getClass()).info("PUT request to Update Book");
+        return bookService.putBook(book);
     }
 
     @Operation(summary = "Delete Book", description = "Delete a Book", tags = "Delete")
@@ -73,7 +87,7 @@ public class bookController {
                     content = @Content)
     })
     @RequestMapping(method = RequestMethod.DELETE, value = "/books/{bookID}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<HttpStatus> deleteBook(@PathVariable("bookID") String bookID){
+    public ResponseEntity<HttpStatus> deleteBook(@PathVariable("bookID") String bookID) throws IOException {
         LoggerFactory.getLogger(getClass()).info("DELETE request to delete a Book");
         return bookService.deleteBook(bookID);
     }

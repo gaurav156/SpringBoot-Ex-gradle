@@ -3,22 +3,15 @@ package com.springboot.configdemo.MyApplication.fullstack.book;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 
 public class Book {
     private String bookID;
     private String bookTitle;
     private String issnNo;
-    private String[] customerID;
+    private LinkedHashSet<String> customerID;
     Logger logger = LoggerFactory.getLogger(getClass());
-
-//    public Book(String bookID, String bookTitle, String issnNo, String[] customerID) {
-//        this.bookID = bookID;
-//        this.bookTitle = bookTitle;
-//        this.issnNo = issnNo;
-//        this.customerID = customerID;
-//    }
 
     public String getBookID() {
         logger.debug("getBookID method call");
@@ -50,29 +43,29 @@ public class Book {
         this.issnNo = issnNo;
     }
 
-    public String[] getCustomerID() {
-        logger.debug("getCustomerID method call");
+    public LinkedHashSet<String> getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(String[] customerID) {
-        logger.debug("setCustomerID method call");
+    public void setCustomerID(LinkedHashSet<String> customerID) {
         this.customerID = customerID;
+    }
+
+    public void deleteCustomerID(String customerID){
+        this.customerID.remove(customerID);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        com.springboot.configdemo.MyApplication.fullstack.book.Book book = (com.springboot.configdemo.MyApplication.fullstack.book.Book) o;
-        return getBookID().equals(book.getBookID()) && Objects.equals(getBookTitle(), book.getBookTitle()) && Objects.equals(getIssnNo(), book.getIssnNo()) && Arrays.equals(getCustomerID(), book.getCustomerID());
+        Book book = (Book) o;
+        return getBookID().equals(book.getBookID()) && getBookTitle().equals(book.getBookTitle()) && Objects.equals(getIssnNo(), book.getIssnNo()) && Objects.equals(getCustomerID(), book.getCustomerID());
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(getBookID(), getBookTitle(), getIssnNo());
-        result = 31 * result + Arrays.hashCode(getCustomerID());
-        return result;
+        return Objects.hash(getBookID(), getBookTitle(), getIssnNo(), getCustomerID());
     }
 
     @Override
@@ -80,6 +73,6 @@ public class Book {
         return "BookID : " + bookID +
                 "bookTitle : " + bookTitle +
                 "bookIssnNo : " + issnNo +
-                "bookAuthor : " + Arrays.toString(customerID) ;
+                "bookAuthor : " + customerID ;
     }
 }

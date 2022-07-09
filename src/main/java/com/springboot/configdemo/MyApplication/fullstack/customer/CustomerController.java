@@ -44,7 +44,7 @@ public class CustomerController {
                     content = @Content)
     })
     @RequestMapping(method = RequestMethod.GET, value = "/customers/{customerID}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Customer> customerFilter(@PathVariable("customerID") String customerID) throws IOException {
+    public Customer customerFilter(@PathVariable("customerID") String customerID) throws IOException {
         LoggerFactory.getLogger(getClass()).info(String.format("GET request for customerID : %s", customerID));
         return customerService.customerFilter(customerID);
     }
@@ -58,9 +58,23 @@ public class CustomerController {
                     content = @Content)
     })
     @RequestMapping(method = RequestMethod.POST, value = "/customers", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Customer addCustomer(@RequestBody Customer customer) {
-        LoggerFactory.getLogger(getClass()).info("PUT request to Add Customer");
+    public Customer addCustomer(@RequestBody Customer customer) throws IOException {
+        LoggerFactory.getLogger(getClass()).info("POST request to Add Customer");
         return customerService.addCustomer(customer);
+    }
+
+    @Operation(summary = "Update Customer", description = "Update a Customer", tags = "Put")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Customer Updated",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CustomerService.class))}),
+            @ApiResponse(responseCode = "404", description = "Failed",
+                    content = @Content)
+    })
+    @RequestMapping(method = RequestMethod.PUT, value = "/customers", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Customer putCustomer(@RequestBody Customer customer) throws IOException {
+        LoggerFactory.getLogger(getClass()).info("PUT request to Update Customer");
+        return customerService.putCustomer(customer);
     }
 
     @Operation(summary = "Delete Customer", description = "Delete a Customer", tags = "Delete")
@@ -72,7 +86,7 @@ public class CustomerController {
                     content = @Content)
     })
     @RequestMapping(method = RequestMethod.DELETE, value = "/customer/{customerID}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<HttpStatus> deleteCustomer(@PathVariable("customerID") String customerID){
+    public ResponseEntity<HttpStatus> deleteCustomer(@PathVariable("customerID") String customerID) throws IOException {
         LoggerFactory.getLogger(getClass()).info("DELETE request to delete a Customer");
         return customerService.deleteCustomer(customerID);
     }

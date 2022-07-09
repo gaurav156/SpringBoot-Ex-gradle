@@ -23,19 +23,24 @@ public class CustomerService {
         return customersRepo.getCustomerList();
     }
 
-    public List<Customer> customerFilter(String customerID) throws IOException {
+    public Customer customerFilter(String customerID) throws IOException {
         logger.debug(String.format("Customers Service - customerFilter method call for customerID : %s", customerID));
         return customersRepo.customerFilter(customerID);
     }
 
-    public Customer addCustomer(Customer customer){
+    public Customer addCustomer(Customer customer) throws IOException {
         logger.debug(String.format("Customers Service - addCustomer method call for customerID : %s", customer.getCustomerID()));
         return customersRepo.addCustomer(customer);
     }
 
-    public ResponseEntity<HttpStatus> deleteCustomer(String customerID){
+    public ResponseEntity<HttpStatus> deleteCustomer(String customerID) throws IOException {
         logger.debug(String.format("Customers Service - deleteCustomer method call for customerID : %s", customerID));
         return customersRepo.deleteCustomer(customerID);
+    }
+
+    public Customer putCustomer(Customer customer) throws IOException {
+        logger.debug(String.format("Customers Service - putCustomer method call for customerID : %s", customer.getCustomerID()));
+        return customersRepo.putCustomer(customer);
     }
 
     public String getMarkLogicBaseURL(){

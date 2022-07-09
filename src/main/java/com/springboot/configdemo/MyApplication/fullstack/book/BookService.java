@@ -23,19 +23,24 @@ public class BookService {
         return booksRepo.getBookList();
     }
 
-    public List<Book> bookFilter(String bookID) throws IOException {
+    public Book bookFilter(String bookID) throws IOException {
         logger.debug(String.format("Books Service - bookFilter method call for bookID : %s", bookID));
         return booksRepo.bookFilter(bookID);
     }
 
-    public Book addBook(Book book){
+    public Book addBook(Book book) throws IOException {
         logger.debug(String.format("Books Service - addBook method call for bookID : %s", book.getBookID()));
         return booksRepo.addBook(book);
     }
 
-    public ResponseEntity<HttpStatus> deleteBook(String bookID){
+    public ResponseEntity<HttpStatus> deleteBook(String bookID) throws IOException {
         logger.debug(String.format("Books Service - deleteBook method call for bookID : %s", bookID));
         return booksRepo.deleteBook(bookID);
+    }
+
+    public Book putBook(Book book) throws IOException {
+        logger.debug(String.format("Books Service - putBook method call for bookID : %s", book.getBookID()));
+        return booksRepo.putBook(book);
     }
 
     public String getMarkLogicBaseURL(){

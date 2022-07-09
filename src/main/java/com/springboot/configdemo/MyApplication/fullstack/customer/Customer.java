@@ -3,15 +3,15 @@ package com.springboot.configdemo.MyApplication.fullstack.customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 
 public class Customer {
-
     private String customerID;
     private String customerName;
     private String membershipDate;
-    private String[] bookID;
+    private LinkedHashSet<String> bookID;
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -46,29 +46,29 @@ public class Customer {
         this.membershipDate = membershipDate;
     }
 
-    public String[] getBookID() {
-        logger.debug("getBookID method call");
+    public LinkedHashSet<String> getBookID() {
         return bookID;
     }
 
-    public void setBookID(String[] bookID) {
-        logger.info("setBookID method call");
+    public void setBookID(LinkedHashSet<String> bookID) {
         this.bookID = bookID;
+    }
+
+    public void deleteBookID(String bookID){
+        this.bookID.remove(bookID);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        com.springboot.configdemo.MyApplication.fullstack.customer.Customer customer = (com.springboot.configdemo.MyApplication.fullstack.customer.Customer) o;
-        return getCustomerID().equals(customer.getCustomerID()) && Objects.equals(getCustomerName(), customer.getCustomerName()) && Objects.equals(getMembershipDate(), customer.getMembershipDate()) && Arrays.equals(getBookID(), customer.getBookID());
+        Customer customer = (Customer) o;
+        return getCustomerID().equals(customer.getCustomerID()) && getCustomerName().equals(customer.getCustomerName()) && Objects.equals(getMembershipDate(), customer.getMembershipDate()) && Objects.equals(getBookID(), customer.getBookID());
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(getCustomerID(), getCustomerName(), getMembershipDate());
-        result = 31 * result + Arrays.hashCode(getBookID());
-        return result;
+        return Objects.hash(getCustomerID(), getCustomerName(), getMembershipDate(), getBookID());
     }
 
     @Override
@@ -76,7 +76,7 @@ public class Customer {
         return "customerID : " + customerID +
                 "customerName : " + customerName +
                 "membershipDate : " + membershipDate +
-                "bookID : " + Arrays.toString(bookID) ;
+                "bookID : " + bookID ;
     }
 }
 
