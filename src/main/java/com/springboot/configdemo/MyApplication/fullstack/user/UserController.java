@@ -1,11 +1,11 @@
 package com.springboot.configdemo.MyApplication.fullstack.user;
 
-import com.springboot.configdemo.MyApplication.fullstack.book.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +30,7 @@ public class UserController {
     })
     @RequestMapping(method = RequestMethod.GET, value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<User> readAllUsers() throws IOException {
+        LoggerFactory.getLogger(getClass()).info("GET request for list of all Users");
         return userService.getUserList();
     }
 
@@ -42,7 +43,8 @@ public class UserController {
                     content = @Content)
     })
     @RequestMapping(method = RequestMethod.GET, value = "/users/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<User> userFilter(@PathVariable("id") String id) throws IOException {
+    public User userFilter(@PathVariable("id") String id) throws IOException {
+        LoggerFactory.getLogger(getClass()).info(String.format("GET request for userID : %s", id));
         return userService.userFilter(id);
     }
 
@@ -56,6 +58,7 @@ public class UserController {
     })
     @RequestMapping(method = RequestMethod.POST, value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE})
     public User addUser(@RequestBody User user) throws IOException {
+        LoggerFactory.getLogger(getClass()).info("POST request to Add User");
         return userService.addUser(user);
     }
 
@@ -69,6 +72,7 @@ public class UserController {
     })
     @RequestMapping(method = RequestMethod.GET, value = "/users/{email}/{password}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public User authenticateUser(@PathVariable("email") String email, @PathVariable("password") String password) throws IOException {
+        LoggerFactory.getLogger(getClass()).info("GET request to Authenticate User");
         return userService.authenticateUser(email, password);
     }
 }

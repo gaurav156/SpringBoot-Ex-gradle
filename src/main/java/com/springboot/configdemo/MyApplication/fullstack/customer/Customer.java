@@ -47,14 +47,17 @@ public class Customer {
     }
 
     public LinkedHashSet<String> getBookID() {
+        logger.debug("getBookID method call");
         return bookID;
     }
 
     public void setBookID(LinkedHashSet<String> bookID) {
+        logger.debug("setBookID method call");
         this.bookID = bookID;
     }
 
     public void deleteBookID(String bookID){
+        logger.debug("deleteBookID method call");
         this.bookID.remove(bookID);
     }
 
