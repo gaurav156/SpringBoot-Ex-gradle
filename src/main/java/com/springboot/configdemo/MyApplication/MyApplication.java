@@ -1,5 +1,6 @@
 package com.springboot.configdemo.MyApplication;
 
+import com.springboot.configdemo.MyApplication.fullstack.email.EmailSendService;
 import com.springboot.configdemo.MyApplication.fullstack.emerald.EmeraldRepo;
 import com.springboot.configdemo.MyApplication.ui.TestMarkL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class MyApplication implements CommandLineRunner {
 
 //	@Autowired
 //	private EmeraldRepo emeraldRepo;
+
+//	@Autowired
+//	private EmailSendService emailSendService;
 
 
 	public static void main(String[] args) throws IOException {
@@ -51,6 +55,7 @@ public class MyApplication implements CommandLineRunner {
 //		System.out.println(emeraldRepo.getBookList());
 //		emeraldRepo.getTest();
 //		emeraldRepo.putTest();
+//		emailSendService.sendSimpleEmail("cocxth1301@gmail.com", "Email Subject", "Email Body");
 	}
 
 

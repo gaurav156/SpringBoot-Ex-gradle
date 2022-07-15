@@ -9,6 +9,8 @@ import com.springboot.configdemo.MyApplication.MarkLogicConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -87,5 +89,48 @@ public class UsersRepo {
 
         logger.debug("User Repository - generateID method call");
         return id;
+    }
+
+    public User putUser(String id, User user){
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode node = objectMapper.valueToTree(user);
+
+        var manager = markLogicConfig.getDocumentManager(db);
+
+        JacksonHandle handle = new JacksonHandle(node);
+        manager.write("/db/user/"+id+".json", handle);
+
+        logger.debug(String.format("User Repository - putUser method call for userID : %s", id));
+        return user;
+    }
+
+    public ResponseEntity<HttpStatus> resetPassword(String email, String password) {
+        User result = new User();
+        try {
+            for (User i : getUserList()) {
+                if (i.getEmail().equals(email)) {
+                    result = i;
+                    break;
+                }
+            }
+            result.setPassword(password);
+            putUser(result.getId(), result);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public boolean checkEmail(String email) throws IOException {
+        boolean present = false;
+        for (User i : getUserList()) {
+            if (i.getEmail().equals(email)) {
+                present = true;
+                break;
+            }
+        }
+        return present;
     }
 }
